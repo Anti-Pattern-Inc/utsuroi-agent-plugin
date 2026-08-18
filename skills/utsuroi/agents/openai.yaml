@@ -1,0 +1,13 @@
+interface:
+  display_name: "UTSUROI"
+  short_description: "Manage tasks and workflows in UTSUROI"
+  default_prompt: "Use $utsuroi to show my tasks due today."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "utsuroi"
+      description: "Official UTSUROI task-management MCP server"
+      transport: "streamable_http"
+      url: "https://api.utsuroi.nil0.io/mcp"
+policy:
+  allow_implicit_invocation: true

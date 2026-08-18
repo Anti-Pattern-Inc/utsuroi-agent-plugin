@@ -1,0 +1,27 @@
+{
+  "name": "utsuroi",
+  "description": "Official UTSUROI task-management plugin for Claude Code.",
+  "owner": {
+    "name": "Anti-Pattern Inc."
+  },
+  "plugins": [
+    {
+      "name": "utsuroi",
+      "source": "./",
+      "description": "Manage UTSUROI tasks and workflows through the official remote MCP server.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Anti-Pattern Inc."
+      },
+      "homepage": "https://utsuroi.nil0.io",
+      "repository": "https://github.com/Anti-Pattern-Inc/utsuroi-agent-plugin",
+      "license": "Apache-2.0",
+      "category": "Productivity",
+      "tags": [
+        "tasks",
+        "kanban",
+        "mcp"
+      ]
+    }
+  ]
+}

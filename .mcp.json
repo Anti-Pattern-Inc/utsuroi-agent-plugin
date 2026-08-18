@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "utsuroi": {
+      "type": "http",
+      "url": "https://api.utsuroi.nil0.io/mcp"
+    }
+  }
+}

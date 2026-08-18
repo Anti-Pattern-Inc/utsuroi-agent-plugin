@@ -1,0 +1,42 @@
+{
+  "id": "utsuroi",
+  "name": "utsuroi-agent-plugin",
+  "version": "0.1.0",
+  "description": "Manage UTSUROI tasks and workflows through the official remote MCP server.",
+  "author": {
+    "name": "Anti-Pattern Inc.",
+    "url": "https://github.com/Anti-Pattern-Inc"
+  },
+  "homepage": "https://utsuroi.nil0.io",
+  "repository": "https://github.com/Anti-Pattern-Inc/utsuroi-agent-plugin",
+  "license": "Apache-2.0",
+  "keywords": [
+    "utsuroi",
+    "task-management",
+    "kanban",
+    "productivity",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "UTSUROI",
+    "shortDescription": "Manage tasks and workflows in UTSUROI.",
+    "longDescription": "Search, create, update, organize, and review UTSUROI tasks with the official OAuth-protected MCP server.",
+    "developerName": "Anti-Pattern Inc.",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://utsuroi.nil0.io",
+    "defaultPrompt": [
+      "Show my UTSUROI tasks due today.",
+      "Create a UTSUROI task from this request.",
+      "Summarize recent changes in my UTSUROI workspace."
+    ],
+    "brandColor": "#2F5A80",
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/icon.svg"
+  }
+}

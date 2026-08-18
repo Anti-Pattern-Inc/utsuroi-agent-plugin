@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "utsuroi": {
+      "type": "streamable-http",
+      "url": "https://api.utsuroi.nil0.io/mcp"
+    }
+  }
+}

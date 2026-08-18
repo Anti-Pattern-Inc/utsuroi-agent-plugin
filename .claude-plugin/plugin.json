@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "utsuroi",
+  "displayName": "UTSUROI",
+  "version": "0.1.0",
+  "description": "Manage UTSUROI tasks and workflows through the official remote MCP server.",
+  "author": {
+    "name": "Anti-Pattern Inc.",
+    "url": "https://github.com/Anti-Pattern-Inc"
+  },
+  "homepage": "https://utsuroi.nil0.io",
+  "repository": "https://github.com/Anti-Pattern-Inc/utsuroi-agent-plugin",
+  "license": "Apache-2.0",
+  "keywords": [
+    "utsuroi",
+    "task-management",
+    "kanban",
+    "productivity",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}

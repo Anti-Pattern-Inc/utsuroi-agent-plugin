@@ -1,0 +1,23 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "utsuroi",
+  "version": "0.1.0",
+  "description": "Manage tasks, boards, due work, and activity in UTSUROI.",
+  "author": {
+    "name": "Anti-Pattern Inc.",
+    "url": "https://github.com/Anti-Pattern-Inc"
+  },
+  "homepage": "https://utsuroi.nil0.io",
+  "repository": "https://github.com/Anti-Pattern-Inc/utsuroi-agent-plugin",
+  "license": "Apache-2.0",
+  "keywords": [
+    "utsuroi",
+    "task-management",
+    "tasks",
+    "todo",
+    "kanban",
+    "project-management",
+    "due-dates",
+    "recurring-tasks"
+  ]
+}

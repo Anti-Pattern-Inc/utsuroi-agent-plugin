@@ -1,0 +1,21 @@
+{
+  "name": "utsuroi",
+  "interface": {
+    "displayName": "UTSUROI"
+  },
+  "plugins": [
+    {
+      "name": "utsuroi-agent-plugin",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Anti-Pattern-Inc/utsuroi-agent-plugin.git",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
