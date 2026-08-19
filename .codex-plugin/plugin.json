@@ -1,6 +1,6 @@
 {
   "id": "utsuroi",
-  "name": "utsuroi-agent-plugin",
+  "name": "utsuroi",
   "version": "0.1.0",
   "description": "Manage UTSUROI tasks and workflows through the official remote MCP server.",
   "author": {
