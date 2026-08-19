@@ -5,7 +5,7 @@
   },
   "plugins": [
     {
-      "name": "utsuroi-agent-plugin",
+      "name": "utsuroi",
       "source": {
         "source": "url",
         "url": "https://github.com/Anti-Pattern-Inc/utsuroi-agent-plugin.git",

@@ -25,7 +25,7 @@ codex plugin marketplace add Anti-Pattern-Inc/utsuroi-agent-plugin
 Then install from the Codex app's Plugins Directory, or with the CLI:
 
 ```sh
-codex plugin add utsuroi-agent-plugin@utsuroi
+codex plugin add utsuroi@utsuroi
 ```
 
 Start a new chat after installation. Select `UTSUROI` with `@UTSUROI`, invoke the skill with `$utsuroi`, or ask naturally for a UTSUROI task operation.
