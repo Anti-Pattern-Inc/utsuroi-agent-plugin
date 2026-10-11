@@ -6,6 +6,10 @@ Connect Codex, Claude Code, or Kiro to [UTSUROI](https://utsuroi.nil0.io) throug
 
 The plugin includes a shared `utsuroi` Agent Skill for reliable task workflows: discovering boards and lanes, searching work, creating and updating tasks, assigning members, managing labels, reviewing activity, safely archiving or restoring tasks, and optionally reading and updating board settings and Slack notifications.
 
+## 0.5.0 — Update notice (Claude Code)
+
+At the start of a Claude Code session the plugin checks once a day whether a newer version is published and, if so, has the agent tell you how to update. It only notifies; it never installs anything. See [Keeping the plugin up to date](#keeping-the-plugin-up-to-date). Plugins older than 0.5.0 have no such check, so update them once by hand.
+
 ## 0.4.0 — Edit existing Knowledge
 
 Ask the agent to correct or reorganize an existing document. The `update_knowledge` tool edits its title and/or body, requiring the version read beforehand. Conflicting edits are rejected; the agent must read and merge the latest content before retrying. Routine recording still uses append. Requires a server with this tool; no additional OAuth scope is needed. The existing UI editor remains a whole-body save without conflict detection.
@@ -16,7 +20,7 @@ With a server that provides the four Knowledge tools, the shared skill reads rel
 
 Start with: “Work on this UTSUROI project, keep its decisions in Knowledge, and hand review back to me.” Set the board and project once; subsequent work uses that destination unless you change it. You can also keep one project per bot. This is an organizational convention, not a permissions boundary.
 
-No new OAuth scopes are required. Existing connections with task read/write access do not need reauthorization for Knowledge. Read-only connections still need write access to record results. There are no background hooks: recording depends on the client loading and following the skill, and only verified durable outcomes are saved. If the tools are missing, update the server before using the loop.
+No new OAuth scopes are required. Existing connections with task read/write access do not need reauthorization for Knowledge. Read-only connections still need write access to record results. There are no recording hooks: recording depends on the client loading and following the skill, and only verified durable outcomes are saved. If the tools are missing, update the server before using the loop.
 
 ## Supported clients
 
@@ -25,6 +29,21 @@ No new OAuth scopes are required. Existing connections with task read/write acce
 | Codex | Codex plugin and marketplace | `@UTSUROI` or `$utsuroi` |
 | Claude Code | Claude plugin and marketplace | `/utsuroi:utsuroi` or automatic skill use |
 | Kiro | Agent Plugins-compatible Power | Automatic activation from UTSUROI task keywords |
+
+## Let your AI set it up
+
+In Claude Code or Codex, give the agent this one sentence:
+
+```text
+Set up https://github.com/Anti-Pattern-Inc/utsuroi-agent-plugin
+```
+
+**For the agent:** slash commands such as `/plugin` cannot be run by you, so use the shell equivalents of the steps below.
+
+- Claude Code: `claude plugin marketplace add Anti-Pattern-Inc/utsuroi-agent-plugin`, then `claude plugin install utsuroi@utsuroi`
+- Codex: `codex plugin marketplace add Anti-Pattern-Inc/utsuroi-agent-plugin`, then `codex plugin add utsuroi@utsuroi`
+
+Then tell the user the two things only they can do: sign in in the browser and approve the connection, and reload (`/reload-plugins` in Claude Code, a new chat in Codex). Do not ask for tokens or write MCP settings by hand. Kiro has no command-line install; point the user to the steps below.
 
 ## Install in Codex
 
@@ -61,6 +80,20 @@ Run `/reload-plugins` if Claude Code asks you to reload. The shared skill is ava
 4. Enter `https://github.com/Anti-Pattern-Inc/utsuroi-agent-plugin`.
 
 Kiro reads the root `plugin.json`, `mcp.json`, and `skills/` directory using the vendor-neutral Agent Plugins format.
+
+## Keeping the plugin up to date
+
+The tools themselves always come from the remote server, so they are current in every session. What can go stale is the local part: the bundled skill instructions. Claude Code, Codex and Kiro each update it differently.
+
+**Claude Code**
+
+- Third-party marketplaces do not auto-update by default. To turn it on: `/plugin` → **Marketplaces** → `utsuroi` → **Enable auto-update**. Updates then arrive after a session starts and apply on the next restart or `/reload-plugins`.
+- To update by hand: `claude plugin marketplace update utsuroi`, then `claude plugin update utsuroi@utsuroi`, then restart or `/reload-plugins`.
+- Update notice: a `SessionStart` hook (`hooks/check-update.mjs`) compares the installed version with `main` on GitHub at most once a day and asks the agent to tell you when a newer one exists. The only request is a GET of this plugin's own manifest; a failed check is retried after an hour and never blocks the session. Set `UTSUROI_PLUGIN_UPDATE_CHECK=0` to turn it off. It also stays off when `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` is set.
+
+**Codex and Kiro**: the update notice runs only in Claude Code. Refresh the marketplace or re-import the repository from your client's plugin manager.
+
+**Maintainers**: clients decide what is new from the version, so bump all four manifests together (`node scripts/check-versions.mjs` checks they match) and run `node --test test/check-update.test.mjs`.
 
 ## Authenticate
 
