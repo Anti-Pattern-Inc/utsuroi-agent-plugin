@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "utsuroi",
-  "version": "0.1.0",
-  "description": "Manage tasks, boards, due work, and activity in UTSUROI.",
+  "version": "0.4.0",
+  "description": "Manage UTSUROI tasks, project knowledge, AI review handoffs, board settings, and board Slack notifications through the official remote MCP server.",
   "author": {
     "name": "Anti-Pattern Inc.",
     "url": "https://github.com/Anti-Pattern-Inc"

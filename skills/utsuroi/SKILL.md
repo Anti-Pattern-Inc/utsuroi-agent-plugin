@@ -1,6 +1,6 @@
 ---
 name: utsuroi
-description: Manage UTSUROI workspaces and tasks through the UTSUROI MCP server. Use when the user wants to inspect boards, lanes, members, labels, projects, tasks, due work, activity, or recurring tasks, or to create, update, move, assign, label, comment on, archive, or restore UTSUROI tasks.
+description: Manage UTSUROI workspaces, tasks, and board settings through the UTSUROI MCP server. Use for task discovery and updates, project knowledge, AI work linked to a UTSUROI board or project, review handoffs, due work, activity, recurring tasks, or reading and updating board settings, card defaults, and board Slack connections and notifications.
 ---
 
 # UTSUROI
@@ -16,6 +16,10 @@ Use the `utsuroi` MCP server as the source of truth for live workspace data. Fol
 5. Use the narrowest tool that expresses the user's intent. Do not simulate a mutation with unrelated tools.
 6. Report what was found or changed and include direct UTSUROI URLs returned by the server.
 
+## Project knowledge and AI handoff
+
+For work linked to a UTSUROI board, project, or task, read [references/knowledge.md](references/knowledge.md). Read relevant knowledge before work, record durable outcomes afterward, use version-checked updates for requested corrections or rewrites, and hand review back to the designated person. Apply this loop to the selected project during ongoing work without asking for confirmation on each entry. Ordinary read-only lookups and unrelated coding do not authorize writes. Honor requests not to record or to use a different destination.
+
 ## Reads
 
 - Run unambiguous read requests without asking for confirmation.
@@ -30,13 +34,14 @@ Use the `utsuroi` MCP server as the source of truth for live workspace data. Fol
 - Proceed directly when the target, scope, and requested values are explicit. Ask only for information that materially changes the mutation.
 - Use `update_task_fields` only for base fields. Use `move_task`, `set_task_assignees`, `set_task_labels`, and `add_task_comment` for their respective intents.
 - Treat assignee and label setters as full replacement operations. For add/remove requests, fetch the task, merge the current IDs, and submit the complete intended set.
+- For board settings, use the dedicated settings tools described in the workflow reference. They require the separate `mcp:boards.settings` scope, which is off by default at OAuth consent. Task write access does not grant settings access.
 - Treat bulk task creation as non-atomic. Report successes and failures by input item, and never retry successful items automatically.
 - Archive descendants only when the user explicitly includes subtasks or confirms that scope. Explain that archive is reversible; do not claim that the task was physically deleted.
 
 ## Failure handling
 
 - On authentication failure, direct the user to the current client's MCP authentication control; never request or expose an access token.
-- On insufficient scope or permission, name the missing read/write access without attempting a workaround.
+- On insufficient scope or permission, name the missing scope without attempting a workaround. For `mcp:boards.settings`, direct the user to reauthorize and enable “Read and update board settings.” If the consent option is disabled, the client must be registered again. Reauthorization does not override the user’s workspace role or board access.
 - On validation failure, retain the user's intended values, correct only the invalid input, and retry only after the correction is clear.
 - On partial bulk failure, preserve the returned indices and URLs so the user can distinguish created items from failed items.
 

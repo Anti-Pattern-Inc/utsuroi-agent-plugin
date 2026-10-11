@@ -4,7 +4,19 @@
 
 Connect Codex, Claude Code, or Kiro to [UTSUROI](https://utsuroi.nil0.io) through the official OAuth-protected remote MCP server.
 
-The plugin includes a shared `utsuroi` Agent Skill for reliable task workflows: discovering boards and lanes, searching work, creating and updating tasks, assigning members, managing labels, reviewing activity, and safely archiving or restoring tasks.
+The plugin includes a shared `utsuroi` Agent Skill for reliable task workflows: discovering boards and lanes, searching work, creating and updating tasks, assigning members, managing labels, reviewing activity, safely archiving or restoring tasks, and optionally reading and updating board settings and Slack notifications.
+
+## 0.4.0 — Edit existing Knowledge
+
+Ask the agent to correct or reorganize an existing document. The `update_knowledge` tool edits its title and/or body, requiring the version read beforehand. Conflicting edits are rejected; the agent must read and merge the latest content before retrying. Routine recording still uses append. Requires a server with this tool; no additional OAuth scope is needed. The existing UI editor remains a whole-body save without conflict detection.
+
+## 0.3.0 — Project knowledge and AI review
+
+With a server that provides the four Knowledge tools, the shared skill reads relevant project knowledge before work and appends durable decisions, constraints, and verified findings afterward. It reports the saved document URL. Read-only lookups do not generate notes. Human review uses the existing AI review label and ball holder; bots still act as the connecting user.
+
+Start with: “Work on this UTSUROI project, keep its decisions in Knowledge, and hand review back to me.” Set the board and project once; subsequent work uses that destination unless you change it. You can also keep one project per bot. This is an organizational convention, not a permissions boundary.
+
+No new OAuth scopes are required. Existing connections with task read/write access do not need reauthorization for Knowledge. Read-only connections still need write access to record results. There are no background hooks: recording depends on the client loading and following the skill, and only verified durable outcomes are saved. If the tools are missing, update the server before using the loop.
 
 ## Supported clients
 
@@ -62,8 +74,13 @@ The MCP server supports Dynamic Client Registration. Use your client's MCP or pl
 
 The available OAuth scopes are:
 
-- `mcp:tasks.read` for workspace metadata, members, task search and reads, due tasks, events, and activity.
-- `mcp:tasks.write` for task creation, updates, moves, assignees, labels, comments, archive, and restore.
+- `mcp:tasks.read` for workspace metadata, members, task search and reads, due tasks, events, activity, and Knowledge reads.
+- `mcp:tasks.write` for task creation, updates, moves, assignees, labels, comments, archive, restore, and Knowledge creation, append, and version-checked updates.
+- `mcp:boards.settings` for reading and updating board settings, card defaults, and board-local Slack connections and notifications.
+
+Board settings access is **off by default** on the connection consent screen, including when the client requests it. Turn on **Read and update board settings** only for a connection that should manage these settings. Existing connections and refresh tokens never gain this permission automatically.
+
+To enable it on an existing connection, use the client's MCP authentication controls to reauthorize and select the new permission. If the option is disabled, the client registration only permits the older task scopes: register the client again, then reconnect. Role restrictions still apply after consent.
 
 ## What the agent can do
 
@@ -74,14 +91,22 @@ The available OAuth scopes are:
 - Update task fields, position, parent, assignees, ball holder, and labels.
 - Add comments and create board labels or projects.
 - Soft-archive and restore tasks, optionally including subtasks.
+- With settings access, read/update board name, color, group, sizing, and new-card defaults.
+- With settings access, manage the selected board's Slack channel mappings, notification destinations and schedules, unanswered-mention task selection, and card-comment notifications.
+
+The settings tools are `get_board_settings`, `update_board_settings`, `list_board_slack_channels`, `set_board_slack_channels`, `set_board_slack_unresponded_config`, and `set_board_slack_comment_notify_config`. Settings access does not add guest permission management, recurring-template management, board creation/archive/deletion, or workspace-wide Slack configuration. Existing task tools are unchanged.
 
 Physical deletion and lane-wide bulk mutation are intentionally not exposed.
+
+## Updating to 0.2.0
+
+Update this plugin through your client's plugin manager after the server and consent screen support board settings. Updating the plugin alone does not grant the new OAuth scope. Reauthorize as described above and start a new conversation to load the updated skill and tool list. Older servers without settings tools remain usable for the existing task workflows.
 
 ## Security
 
 - Authentication is handled by each client and the UTSUROI OAuth server.
 - Credentials are never stored in this repository.
-- Write tools require both `mcp:tasks.write` and an authorized UTSUROI role.
+- Task write tools require `mcp:tasks.write`; board settings tools require `mcp:boards.settings`. Settings updates require an owner, admin, or member with all-board access, and reject archived boards or restricted workspaces.
 - The Agent Skill resolves board-local IDs before mutations and treats bulk creation as non-atomic.
 
 Report problems through [GitHub Issues](https://github.com/Anti-Pattern-Inc/utsuroi-agent-plugin/issues).
