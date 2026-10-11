@@ -9,7 +9,7 @@
       "name": "utsuroi",
       "source": "./",
       "description": "Manage UTSUROI tasks, project knowledge, AI review handoffs, board settings, and board Slack notifications through the official remote MCP server.",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "author": {
         "name": "Anti-Pattern Inc."
       },
